@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Bqe-1e-KPc">
+    <device id="retina6_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Image Cropping View Controller-->
+        <scene sceneID="U8s-P5-YUh">
+            <objects>
+                <viewController storyboardIdentifier="Cropping" id="hzc-kv-LWt" customClass="ImageCroppingViewController" customModule="portfolio" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eDT-Va-zaN"/>
+                        <viewControllerLayoutGuide type="bottom" id="6uh-sl-hlg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="lxT-sq-rrQ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gpb-7e-KhD">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="5DK-pL-ReU">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="cancel" id="R6Q-y2-Ewz">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="hzc-kv-LWt" id="hvP-pq-aPn"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="share" id="Fon-yC-fK4">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="hzc-kv-LWt" id="QQy-ZM-FAf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="cancelButton" destination="R6Q-y2-Ewz" id="Mt3-ix-r23"/>
+                        <outlet property="imageView" destination="gpb-7e-KhD" id="coy-Id-2xr"/>
+                        <outlet property="saveButton" destination="Fon-yC-fK4" id="dUN-ox-o8c"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V8f-j2-F2R" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3730.434782608696" y="79.017857142857139"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="1kH-zm-VD3">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="flh-gg-icI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Bqe-1e-KPc" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="LEl-aa-240">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="hzc-kv-LWt" kind="relationship" relationship="rootViewController" id="6vD-bs-3Ve"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="2820.289855072464" y="79.017857142857139"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="cancel" width="37.5" height="37.5"/>
+        <image name="share" width="37.5" height="37.5"/>
+    </resources>
+</document>

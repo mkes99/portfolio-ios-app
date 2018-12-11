@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Ng2-7H-peo">
+    <device id="retina6_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Preview View Controller-->
+        <scene sceneID="kdE-MW-OQX">
+            <objects>
+                <viewController storyboardIdentifier="Preview" id="0fh-Qz-sYo" customClass="PreviewViewController" customModule="portfolio" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="heC-q2-Rcy"/>
+                        <viewControllerLayoutGuide type="bottom" id="RPD-Yb-UJA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aQK-7t-xv2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="reH-fk-9l9">
+                                <rect key="frame" x="108" y="186" width="681" height="42.333333333333336"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uploading Image" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TQx-hZ-HyG">
+                                        <rect key="frame" x="0.0" y="0.0" width="681" height="20.333333333333332"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Nnx-xi-NYP">
+                                        <rect key="frame" x="0.0" y="40.333333333333336" width="681" height="2"/>
+                                    </progressView>
+                                </subviews>
+                            </stackView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E5G-LQ-4pP">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YA9-3Z-8jN">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3ot-ue-IWB">
+                                        <rect key="frame" x="0.0" y="-5" width="414" height="901"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="78M-7T-10Y">
+                                        <rect key="frame" x="352" y="106" width="37" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="editor"/>
+                                        <connections>
+                                            <action selector="filterButtonTapped:" destination="0fh-Qz-sYo" eventType="touchUpInside" id="L0o-EI-C84"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nIr-ou-y23">
+                                        <rect key="frame" x="168" y="96" width="78" height="56"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Save">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="saveTapped:" destination="0fh-Qz-sYo" eventType="touchUpInside" id="XTq-r1-CYg"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EeE-e9-4ST">
+                                        <rect key="frame" x="8" y="96" width="78" height="56"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="filterCancelButtonTapped:" destination="0fh-Qz-sYo" eventType="touchUpInside" id="vgC-yU-PyQ"/>
+                                            <action selector="saveTapped:" destination="0fh-Qz-sYo" eventType="touchUpInside" id="yPJ-xh-YXb"/>
+                                        </connections>
+                                    </button>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j0Z-fO-Dgy">
+                                        <rect key="frame" x="0.0" y="685" width="414" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                    </scrollView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H91-YE-OLy">
+                                        <rect key="frame" x="352" y="183" width="37" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="tags"/>
+                                        <connections>
+                                            <action selector="tagsButtonTapped:" destination="0fh-Qz-sYo" eventType="touchUpInside" id="qrN-IB-g7q"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="NHy-76-Qvu">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="cancel" id="kc0-li-Bhl">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="0fh-Qz-sYo" id="f9K-67-Fha"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="share" id="s47-n1-zcq">
+                            <connections>
+                                <action selector="shareButtonTapped:" destination="0fh-Qz-sYo" id="dzk-rV-AXU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="cancelButton" destination="kc0-li-Bhl" id="5BX-Kb-rOt"/>
+                        <outlet property="filterButton" destination="78M-7T-10Y" id="cGe-Bk-SIp"/>
+                        <outlet property="filterCancelButton" destination="EeE-e9-4ST" id="1bN-Ja-UT9"/>
+                        <outlet property="filterSaveButton" destination="nIr-ou-y23" id="hk8-dJ-efn"/>
+                        <outlet property="previewPhotoView" destination="3ot-ue-IWB" id="z31-af-BS7"/>
+                        <outlet property="previewView" destination="E5G-LQ-4pP" id="qWd-W0-6PJ"/>
+                        <outlet property="progressBar" destination="Nnx-xi-NYP" id="ng3-jR-CLw"/>
+                        <outlet property="progressView" destination="reH-fk-9l9" id="yrd-SY-Feh"/>
+                        <outlet property="scrollView" destination="j0Z-fO-Dgy" id="BJ5-eg-gQG"/>
+                        <outlet property="shareButton" destination="s47-n1-zcq" id="kau-b0-Hz8"/>
+                        <outlet property="tagButton" destination="H91-YE-OLy" id="AFX-Ce-Qwi"/>
+                        <outlet property="uploadingImage" destination="TQx-hZ-HyG" id="9XU-9M-ZdD"/>
+                        <outlet property="videoView" destination="YA9-3Z-8jN" id="72m-Zi-skY"/>
+                        <outlet property="view" destination="aQK-7t-xv2" id="rGJ-72-9TH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5vf-fX-CbE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1878.2608695652175" y="76.339285714285708"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="VVe-Zl-PXR">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ng2-7H-peo" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5b3-kE-6CL">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="0fh-Qz-sYo" kind="relationship" relationship="rootViewController" id="nfi-8L-F0Q"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IWK-oD-c15" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="972.463768115942" y="80.357142857142861"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="cancel" width="37.5" height="37.5"/>
+        <image name="editor" width="37.5" height="37.5"/>
+        <image name="share" width="37.5" height="37.5"/>
+        <image name="tags" width="37.5" height="37.5"/>
+    </resources>
+</document>

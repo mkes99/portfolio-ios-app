@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 import Firebase
 
 class LoggedInViewController: UIViewController {
@@ -22,7 +23,7 @@ class LoggedInViewController: UIViewController {
     
     var posts: [PostModel] = []
     var filteredPosts: [PostModel] = []
-    var filteredButtons: [CustomButton] = []
+    var filteredButtons: [CustomFilterButton] = []
     
     var tags: [TagModel] = []
     
@@ -77,29 +78,18 @@ class LoggedInViewController: UIViewController {
         collectionViewGrid.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: "PostCollectionViewCell")
         collectionViewGrid.dataSource = self
         collectionViewGrid.delegate = self
-//        collectionViewGrid.collectionViewLayout = layout
         
         collectionViewScroll.register(FilterCollectionViewCell.self, forCellWithReuseIdentifier: "FilterCollectionViewCell")
         collectionViewScroll.dataSource = self
         collectionViewScroll.delegate = self
         
-        
-        //
-        //        if let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout,
-        //            let collectionView = collectionView {
-        //            let w = collectionView.frame.width - 20
-        //            flowLayout.estimatedItemSize = CGSize(width: w, height: 200)
-        //        }
-        
-        
-        
-        
-//        let width = view.frame.size.width / 2
-        //        let layoutGrid = collectionViewGrid.collectionViewLayout as! UICollectionViewFlowLayout
-        //        layoutGrid.estimatedItemSize = CGSize(width: 50, height: 200)
-        
+
         let layoutScroll = collectionViewScroll.collectionViewLayout as! UICollectionViewFlowLayout
         layoutScroll.estimatedItemSize = CGSize(width: 100, height: 50)
+        
+        if let layout = collectionViewGrid.collectionViewLayout as? PinterestLayout {
+            layout.delegate = self
+        }
         
         noMatchLabel.isHidden = true
         
@@ -108,6 +98,8 @@ class LoggedInViewController: UIViewController {
         // get content
         
     }
+    
+
     
     // add portfolio button
     @IBAction func addImageTapped(_ sender: UIBarButtonItem) {
@@ -156,7 +148,7 @@ extension LoggedInViewController {
     func fetchPosts() {
         guard let user = user else { return }
         if allTags == false {
-            PostsManager.shared.queryPostPage(withId: user.uid, start: lastPostKey, limit: 2, completion: { (results) in
+            PostsManager.shared.queryPostPage(withId: user.uid, start: lastPostKey, limit: 5, completion: { (results) in
                 
                 if let lastPostValue = results.last?.title {
                     self.lastPostKey = lastPostValue
@@ -170,6 +162,7 @@ extension LoggedInViewController {
                 }
                 self.filteredPosts = self.posts
                 self.collectionViewGrid.reloadData()
+
             })
         }
     }
@@ -192,6 +185,7 @@ extension LoggedInViewController {
                     self.allTags = true
                 }
                 self.collectionViewScroll.reloadData()
+                self.collectionViewGrid.collectionViewLayout.invalidateLayout()
             })
         }
     }
@@ -236,8 +230,8 @@ extension LoggedInViewController {
         default :
             filteredPosts = posts
         }
-        
         self.collectionViewGrid.reloadData()
+        self.collectionViewGrid.collectionViewLayout.invalidateLayout()
     }
     
     func getSelectedButtons() -> [String] {
@@ -260,6 +254,21 @@ extension LoggedInViewController:  UIImagePickerControllerDelegate, UINavigation
                 }
             })
         }
+    }
+}
+
+extension LoggedInViewController: PinterestLayoutDelegate {
+    func collectionView(_ collectionView: UICollectionView,
+                        heightForPhotoAtIndexPath indexPath:IndexPath) -> CGFloat {
+        
+        let post = filteredPosts[indexPath.row]
+        
+        let columnWidth = UIScreen.main.bounds.size.width / 2
+        
+        post.width! = columnWidth
+        let height: CGFloat =  post.width! / post.ratio!
+        
+        return height
     }
 }
 
@@ -310,24 +319,57 @@ extension LoggedInViewController: UICollectionViewDataSource, UICollectionViewDe
         return 10
     }
     
+
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//
+//        if collectionView == collectionViewScroll {
+//            let tag = tags[indexPath.row]
+//
+//            let filterCell = FilterCollectionViewCell()
+//
+//            filterCell.filterButton.setTitle(tag.title, for: .normal)
+//            filterCell.filterButton.sizeToFit()
+//
+//            return CGSize(width: filterCell.filterButton.frame.width, height: 32.0)
+//        } else {
+////            let numberOfColumns: CGFloat = 2
+////            let cellPadding: CGFloat = 4.0
+//
+//
+// //           let post = filteredPosts[indexPath.row]
+//
+// //           let columnWidth = UIScreen.main.bounds.size.width / numberOfColumns
+//
+// //           let width = columnWidth - cellPadding * 2
+// //           let height: CGFloat = cellPadding + width / post.ratio! + cellPadding
+//
+////            let width = (UIScreen.main.bounds.size.width / 2) * 0.95
+////            return CGSize(width: width, height: height)
+//
+////                postCell.frame.size.width / post.ratio!
+////
+////            print(postCell.imageView.image)
+////            postCell.imageView.sizeToFit()
+////            let test = postCell.imageView.frame.size
+////
+////            print(test)
+////
+////            let size = (UIScreen.main.bounds.size.width / 2) * 0.9
+////            return CGSize(width: size, height: size)
+//        }
+//        return
+//    }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        if collectionView == collectionViewScroll {
-            let tag = tags[indexPath.row]
-            
-            let filterCell = FilterCollectionViewCell()
-            
-            filterCell.filterButton.setTitle(tag.title, for: .normal)
-            filterCell.filterButton.sizeToFit()
-            
-            return filterCell.filterButton.frame.size
-        } else {
-            let size = (UIScreen.main.bounds.size.width / 2) * 0.9
-            return CGSize(width: size, height: size)
-        }
-        
-    }
+//    func collectionView(collectionView: UICollectionView, heightForPhotoAt indexPath: IndexPath, with width: CGFloat) -> CGFloat {
+//
+//        let postHeight = collectionView.frame.width * filteredPosts[indexPath.row].ratio!
+//        let postWidth = collectionView.frame.width / filteredPosts[indexPath.row].ratio!
+//        let postSize = CGSize(width: postWidth, height: postHeight)
+//        let boundingRect = CGRect(x: 0, y: 0, width: width, height: CGFloat(MAXFLOAT))
+//        let rect = AVMakeRect(aspectRatio: postSize, insideRect: boundingRect)
+//
+//        return rect.size.height
+//    }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let currentOffset: CGFloat?
@@ -356,6 +398,7 @@ extension LoggedInViewController: PreviewViewDelegate {
         dismiss(animated: true, completion: {
             self.collectionViewGrid.reloadData()
             self.collectionViewScroll.reloadData()
+            self.collectionViewGrid.collectionViewLayout.invalidateLayout()
         })
     }
 }
@@ -403,6 +446,7 @@ extension LoggedInViewController: FilterCollectionViewCellDelegate {
         }
         
         self.collectionViewGrid.reloadData()
+        self.collectionViewGrid.collectionViewLayout.invalidateLayout()
     }
 }
 

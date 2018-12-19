@@ -14,15 +14,15 @@ protocol FilterCollectionViewCellDelegate {
 
 class FilterCollectionViewCell: UICollectionViewCell {
     
-    var filteredButtons = [CustomButton]()
-    var filterButton: CustomButton!
+    var filteredButtons = [CustomFilterButton]()
+    var filterButton: CustomFilterButton!
     var filterButtonXCoord: CGFloat = 5.0
     
     var delegate: FilterCollectionViewCellDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        filterButton = CustomButton(type: .custom)
+        filterButton = CustomFilterButton(type: .custom)
         filterButton.layer.borderColor = UIColor.white.cgColor
         filterButton.layer.borderWidth = 2.0
         filterButton.frame.size.height = 34.0
@@ -61,12 +61,6 @@ class FilterCollectionViewCell: UICollectionViewCell {
         filterButton.setTitle(title, for: .normal)
         filterButton.isSelected = false
         filterButton.sizeToFit()
-//        filterButton.frame = CGRect(x: filterButtonXCoord, y: CGFloat(5.0), width: filterButton.frame.size.width, height: CGFloat(34.0))
-//        self.frame.size.width = filterButton.frame.width
-
-//        print("test", filterButton.frame.width)
-//
-//        filterButton.frame.size = CGSize(width: filterButton.frame.width, height: 34.0)
 
         self.frame.size.width = filterButton.frame.width
 

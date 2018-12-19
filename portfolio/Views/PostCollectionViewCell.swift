@@ -15,19 +15,19 @@ protocol PostCollectionViewCellDelegate {
 class PostCollectionViewCell: UICollectionViewCell {
     var imageView: UIImageView!
     
-    
-//    lazy var width: NSLayoutConstraint = {
-//        let width = contentView.widthAnchor.constraint(equalToConstant: bounds.size.width)
-//        width.isActive = true
-//        return width
-//    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleToFill
         imageView.isUserInteractionEnabled = false
         contentView.addSubview(imageView)
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        imageView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        imageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        imageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
     
     override func layoutSubviews() {
@@ -43,15 +43,6 @@ class PostCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-//    @IBOutlet var collectionImage: UIImageView!
-//
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        collectionImage.layer.cornerRadius = 8
-//        collectionImage.clipsToBounds = true
-//    }
-
     var delegate: PostCollectionViewCellDelegate?
 
     var post: PostModel? {
@@ -64,7 +55,7 @@ class PostCollectionViewCell: UICollectionViewCell {
         if let photoUrlString = post?.photoUrl {
             imageView.loadImageUsingCacheWithUrlString(photoUrlString)
         }
-
+        
         let tapGestureForPhoto = UITapGestureRecognizer(target: self, action: #selector(self.photo_TouchUpInside))
         imageView.addGestureRecognizer(tapGestureForPhoto)
         imageView.isUserInteractionEnabled = true

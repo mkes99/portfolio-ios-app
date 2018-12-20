@@ -37,12 +37,6 @@ class LoggedInViewController: UIViewController {
     var totalPostCount: Int = 0
     var allPosts: Bool = false
     
-//    var layout: UICollectionViewFlowLayout = {
-//        let layout = UICollectionViewFlowLayout()
-//        let width = UIScreen.main.bounds.size.width / 2
-//        layout.estimatedItemSize = CGSize(width: width, height: 10)
-//        return layout
-//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,6 +72,10 @@ class LoggedInViewController: UIViewController {
         collectionViewGrid.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: "PostCollectionViewCell")
         collectionViewGrid.dataSource = self
         collectionViewGrid.delegate = self
+        collectionViewGrid.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 5, right: 5)
+        if let layout = collectionViewGrid.collectionViewLayout as? PinterestLayout {
+            layout.delegate = self
+        }
         
         collectionViewScroll.register(FilterCollectionViewCell.self, forCellWithReuseIdentifier: "FilterCollectionViewCell")
         collectionViewScroll.dataSource = self
@@ -87,10 +85,6 @@ class LoggedInViewController: UIViewController {
         let layoutScroll = collectionViewScroll.collectionViewLayout as! UICollectionViewFlowLayout
         layoutScroll.estimatedItemSize = CGSize(width: 100, height: 50)
         
-        if let layout = collectionViewGrid.collectionViewLayout as? PinterestLayout {
-            layout.delegate = self
-        }
-        
         noMatchLabel.isHidden = true
         
        
@@ -99,6 +93,11 @@ class LoggedInViewController: UIViewController {
         
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collectionViewGrid.collectionViewLayout.invalidateLayout()
+        collectionViewScroll.collectionViewLayout.invalidateLayout()
+    }
 
     
     // add portfolio button
@@ -147,19 +146,22 @@ extension LoggedInViewController {
     // get post for collection view
     func fetchPosts() {
         guard let user = user else { return }
-        if allTags == false {
+        if allPosts == false {
             PostsManager.shared.queryPostPage(withId: user.uid, start: lastPostKey, limit: 5, completion: { (results) in
                 
                 if let lastPostValue = results.last?.title {
                     self.lastPostKey = lastPostValue
                 }
-                results.forEach({ (result) in
-                    self.posts.append(result)
-                    
-                })
-                if self.posts.count == self.totalPostCount{
-                    self.allTags = true
+                
+                if results.count > 0 {
+                    results.forEach({ (result) in
+                        self.posts.append(result)
+                    })
+                } else {
+                    self.allPosts = true
                 }
+                
+              
                 self.filteredPosts = self.posts
                 self.collectionViewGrid.reloadData()
 
@@ -185,7 +187,6 @@ extension LoggedInViewController {
                     self.allTags = true
                 }
                 self.collectionViewScroll.reloadData()
-                self.collectionViewGrid.collectionViewLayout.invalidateLayout()
             })
         }
     }
@@ -231,7 +232,6 @@ extension LoggedInViewController {
             filteredPosts = posts
         }
         self.collectionViewGrid.reloadData()
-        self.collectionViewGrid.collectionViewLayout.invalidateLayout()
     }
     
     func getSelectedButtons() -> [String] {
@@ -258,18 +258,15 @@ extension LoggedInViewController:  UIImagePickerControllerDelegate, UINavigation
 }
 
 extension LoggedInViewController: PinterestLayoutDelegate {
-    func collectionView(_ collectionView: UICollectionView,
-                        heightForPhotoAtIndexPath indexPath:IndexPath) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, heightForImageAtIndexPath indexPath: IndexPath, withWidth: CGFloat) -> CGFloat {
         
         let post = filteredPosts[indexPath.row]
         
-        let columnWidth = UIScreen.main.bounds.size.width / 2
-        
-        post.width! = columnWidth
-        let height: CGFloat =  post.width! / post.ratio!
+        let height: CGFloat =  withWidth / post.ratio!
         
         return height
     }
+    
 }
 
 extension LoggedInViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -287,7 +284,7 @@ extension LoggedInViewController: UICollectionViewDataSource, UICollectionViewDe
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if collectionView == collectionViewScroll {
+        if collectionView == collectionViewScroll{
             
             let filterCell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCollectionViewCell", for: indexPath) as! FilterCollectionViewCell
             if !tags.isEmpty {
@@ -360,16 +357,6 @@ extension LoggedInViewController: UICollectionViewDataSource, UICollectionViewDe
 //        return
 //    }
     
-//    func collectionView(collectionView: UICollectionView, heightForPhotoAt indexPath: IndexPath, with width: CGFloat) -> CGFloat {
-//
-//        let postHeight = collectionView.frame.width * filteredPosts[indexPath.row].ratio!
-//        let postWidth = collectionView.frame.width / filteredPosts[indexPath.row].ratio!
-//        let postSize = CGSize(width: postWidth, height: postHeight)
-//        let boundingRect = CGRect(x: 0, y: 0, width: width, height: CGFloat(MAXFLOAT))
-//        let rect = AVMakeRect(aspectRatio: postSize, insideRect: boundingRect)
-//
-//        return rect.size.height
-//    }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let currentOffset: CGFloat?
@@ -398,7 +385,6 @@ extension LoggedInViewController: PreviewViewDelegate {
         dismiss(animated: true, completion: {
             self.collectionViewGrid.reloadData()
             self.collectionViewScroll.reloadData()
-            self.collectionViewGrid.collectionViewLayout.invalidateLayout()
         })
     }
 }
@@ -406,7 +392,6 @@ extension LoggedInViewController: PreviewViewDelegate {
 extension LoggedInViewController: PostCollectionViewCellDelegate {
     func goToPreviewVC(postImage: UIImage, postId: String) {
         if let navController = UIStoryboard(name: "Preview", bundle: nil).instantiateInitialViewController() as? UINavigationController, let previewVC = navController.topViewController as? PreviewViewController {
-            print(previewVC)
             previewVC.previewImage = postImage
             previewVC.imageId = postId
             previewVC.delegate = self
@@ -446,7 +431,6 @@ extension LoggedInViewController: FilterCollectionViewCellDelegate {
         }
         
         self.collectionViewGrid.reloadData()
-        self.collectionViewGrid.collectionViewLayout.invalidateLayout()
     }
 }
 

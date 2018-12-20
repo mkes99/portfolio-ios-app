@@ -21,13 +21,6 @@ class PostCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleToFill
         imageView.isUserInteractionEnabled = false
         contentView.addSubview(imageView)
-        
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        imageView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        imageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        imageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
     
     override func layoutSubviews() {
@@ -59,7 +52,6 @@ class PostCollectionViewCell: UICollectionViewCell {
         let tapGestureForPhoto = UITapGestureRecognizer(target: self, action: #selector(self.photo_TouchUpInside))
         imageView.addGestureRecognizer(tapGestureForPhoto)
         imageView.isUserInteractionEnabled = true
-
     }
 
     @objc func photo_TouchUpInside() {

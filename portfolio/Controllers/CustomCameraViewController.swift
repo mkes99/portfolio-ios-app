@@ -11,6 +11,7 @@ import AVFoundation
 import AVKit
 
 class CustomCameraViewController: UIViewController {
+    weak var delegate: PreviewViewDelegate?
     
     @IBOutlet weak var captureButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
@@ -238,6 +239,7 @@ class CustomCameraViewController: UIViewController {
             if let photoOutputConnection = self.photoOutput?.connection(with: AVMediaType.video) {
                 photoOutputConnection.videoOrientation = self.transformOrientation(orientation: UIInterfaceOrientation(rawValue: UIApplication.shared.statusBarOrientation.rawValue)!)
             }
+            AudioServicesPlaySystemSoundWithCompletion(SystemSoundID(1108), nil)
             self.photoOutput?.capturePhoto(with: settings, delegate: self)
         } else if !isRecording {
             isRecording = true
@@ -313,30 +315,7 @@ class CustomCameraViewController: UIViewController {
     }
 }
 
-extension CustomCameraViewController:  AVCapturePhotoCaptureDelegate, AVCaptureFileOutputRecordingDelegate{
-    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        if let imageData = photo.fileDataRepresentation(){
-            capturedImage = UIImage.init(data: imageData , scale: 1.0)
-            if let navController = UIStoryboard(name: "Preview", bundle: nil).instantiateInitialViewController() as? UINavigationController, let previewVC = navController.topViewController as? PreviewViewController {
-                print(previewVC)
-                previewVC.previewImage = self.capturedImage
-                self.present(navController, animated: true, completion: nil)
-            }
-        }
-    }
-    
-    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-        if (error != nil) {
-            print("Error recording movie: \(error!.localizedDescription)")
-        } else {
-            if let navController = UIStoryboard(name: "Preview", bundle: nil).instantiateInitialViewController() as? UINavigationController, let previewVC = navController.topViewController as? PreviewViewController {
-                print(previewVC)
-                previewVC.videoURL = outputFileURL
-                self.present(navController, animated: true, completion: nil)
-            }
-        }
-    }
-    
+extension CustomCameraViewController {
     func circlePathWithCenter(center: CGPoint, radius: CGFloat) -> UIBezierPath {
         let circlePath = UIBezierPath()
         circlePath.addArc(withCenter: center, radius: radius, startAngle: -.pi, endAngle: -.pi/2, clockwise: true)
@@ -392,5 +371,48 @@ extension CustomCameraViewController:  AVCapturePhotoCaptureDelegate, AVCaptureF
             }
         }
     }
-  
+    
+    func goToPreview(photo : UIImage?, video : URL?) {
+        guard let pvc = self.presentingViewController else { return }
+        dismiss(animated: true, completion: {
+            let alert = UIAlertController(title: nil, message: "Loading Preview...", preferredStyle: .alert)
+            
+            let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+            loadingIndicator.hidesWhenStopped = true
+            loadingIndicator.style = UIActivityIndicatorView.Style.gray
+            loadingIndicator.startAnimating();
+            
+            alert.view.addSubview(loadingIndicator)
+            pvc.present(alert, animated: true, completion: {
+                if let navController = UIStoryboard(name: "Preview", bundle: nil).instantiateInitialViewController() as? UINavigationController, let previewVC = navController.topViewController as? PreviewViewController {
+                    if photo != nil {
+                        previewVC.previewImage = photo
+                    } else {
+                        previewVC.videoURL = video
+                    }
+                    previewVC.delegate = self.delegate
+                    alert.present(navController, animated: true, completion: nil)
+                }
+            })
+        })
+    }
+}
+
+extension CustomCameraViewController:  AVCapturePhotoCaptureDelegate{
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        if let imageData = photo.fileDataRepresentation(){
+            capturedImage = UIImage.init(data: imageData , scale: 1.0)
+            goToPreview(photo: capturedImage!, video: nil)
+        }
+    }
+}
+
+extension CustomCameraViewController: AVCaptureFileOutputRecordingDelegate{
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        if (error != nil) {
+            print("Error recording movie: \(error!.localizedDescription)")
+        } else {
+            goToPreview(photo: nil, video: outputFileURL)
+        }
+    }
 }

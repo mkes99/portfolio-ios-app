@@ -172,6 +172,11 @@ class PreviewViewController: UIViewController{
         
 //        previewPhotoView.frame.size = view.frame.size
     }
+    
+    func uploadDoneMove() {
+        print("test \(delegate)")
+        delegate?.dismissPreview()
+    }
 
 }
 
@@ -242,9 +247,7 @@ extension PreviewViewController: UIViewControllerTransitioningDelegate {
         }
     }
     
-    func uploadDoneMove() {
-        delegate?.dismissPreview()
-    }
+
     
     func buildEffectFilters() {
         var filterNames = [

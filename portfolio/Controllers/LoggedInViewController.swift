@@ -105,8 +105,10 @@ class LoggedInViewController: UIViewController {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         if UIImagePickerController.isSourceTypeAvailable(.camera){
             alert.addAction(UIAlertAction(title: "Take photo", style: .default, handler: { _ in
-                let cameraVC = UIStoryboard(name: "Camera", bundle: nil).instantiateViewController(withIdentifier: "Camera") as UIViewController
-                self.present(cameraVC, animated: true, completion: nil)
+                if let navController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as? UINavigationController, let cameraVC = navController.topViewController as? CustomCameraViewController {
+                    cameraVC.delegate = self
+                    self.present(navController, animated: true, completion: nil)
+                }
             }))
         }
         
@@ -115,6 +117,8 @@ class LoggedInViewController: UIViewController {
             selectImage.allowsEditing = true;
             selectImage.delegate = self
             selectImage.sourceType = .photoLibrary
+//            let previewVC = UIStoryboard(name: "Preview", bundle: nil).instantiateViewController(withIdentifier: "PreviewViewController") as UIViewController
+//            previewVC.delegate = self
             self.present(selectImage, animated: true, completion: nil)
         }))
         
@@ -161,7 +165,6 @@ extension LoggedInViewController {
                     self.allPosts = true
                 }
                 
-              
                 self.filteredPosts = self.posts
                 self.collectionViewGrid.reloadData()
 
@@ -260,6 +263,7 @@ extension LoggedInViewController:  UIImagePickerControllerDelegate, UINavigation
 extension LoggedInViewController: PinterestLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForImageAtIndexPath indexPath: IndexPath, withWidth: CGFloat) -> CGFloat {
         
+        
         let post = filteredPosts[indexPath.row]
         
         let height: CGFloat =  withWidth / post.ratio!
@@ -270,6 +274,7 @@ extension LoggedInViewController: PinterestLayoutDelegate {
 }
 
 extension LoggedInViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+
     // collection view
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -316,48 +321,19 @@ extension LoggedInViewController: UICollectionViewDataSource, UICollectionViewDe
         return 10
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+                if collectionView == collectionViewScroll {
+                    let tag = tags[indexPath.row]
+                    let width = tag.title!.size(withAttributes: [
+                        NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)
+                        ]).width
+                    return CGSize(width: width + CGFloat(tag.title!.count) + 60, height: 32)
+                } else {
+                    return CGSize(width: 200, height: 200)
+                }
+            }
 
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//
-//        if collectionView == collectionViewScroll {
-//            let tag = tags[indexPath.row]
-//
-//            let filterCell = FilterCollectionViewCell()
-//
-//            filterCell.filterButton.setTitle(tag.title, for: .normal)
-//            filterCell.filterButton.sizeToFit()
-//
-//            return CGSize(width: filterCell.filterButton.frame.width, height: 32.0)
-//        } else {
-////            let numberOfColumns: CGFloat = 2
-////            let cellPadding: CGFloat = 4.0
-//
-//
-// //           let post = filteredPosts[indexPath.row]
-//
-// //           let columnWidth = UIScreen.main.bounds.size.width / numberOfColumns
-//
-// //           let width = columnWidth - cellPadding * 2
-// //           let height: CGFloat = cellPadding + width / post.ratio! + cellPadding
-//
-////            let width = (UIScreen.main.bounds.size.width / 2) * 0.95
-////            return CGSize(width: width, height: height)
-//
-////                postCell.frame.size.width / post.ratio!
-////
-////            print(postCell.imageView.image)
-////            postCell.imageView.sizeToFit()
-////            let test = postCell.imageView.frame.size
-////
-////            print(test)
-////
-////            let size = (UIScreen.main.bounds.size.width / 2) * 0.9
-////            return CGSize(width: size, height: size)
-//        }
-//        return
-//    }
-    
-    
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let currentOffset: CGFloat?
         let maxOffset: CGFloat?
@@ -383,6 +359,7 @@ extension LoggedInViewController: UICollectionViewDataSource, UICollectionViewDe
 extension LoggedInViewController: PreviewViewDelegate {
     func dismissPreview() {
         dismiss(animated: true, completion: {
+            print("here")
             self.collectionViewGrid.reloadData()
             self.collectionViewScroll.reloadData()
         })

@@ -17,6 +17,7 @@ enum Constants {
         static let tags = "tags"
         static let tag = "tag"
         static let timeStamp = "timestamp"
+        static let width = "width"
     }
     
 //    var itemLimit = limit

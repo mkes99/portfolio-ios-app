@@ -34,7 +34,7 @@ class FilterCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         var frame =  filterButton.frame
-        frame.size.height = 34.0
+        frame.size.height = 32.0
         frame.size.width = self.frame.size.width
         frame.origin.x = 0
         frame.origin.y = 0
@@ -60,13 +60,9 @@ class FilterCollectionViewCell: UICollectionViewCell {
         filterButton.titleLabel?.text = title
         filterButton.setTitle(title, for: .normal)
         filterButton.isSelected = false
-        filterButton.sizeToFit()
-
-        self.frame.size.width = filterButton.frame.width
 
         filteredButtons.append(filterButton)
         filterButton.addTarget(self, action: #selector(self.filtersButtonTapped), for: .touchUpInside)
-        filterButtonXCoord += filterButton.frame.width + 10
 
     }
     

@@ -45,14 +45,12 @@ struct TagsManager {
         }
         
         tagQuery.observeSingleEvent(of: .value, with: { snapshot in
-            print(snapshot)
             var results: [TagModel] = []
             
             snapshot.children.forEach({ (s) in
                 self.await.enter()
                 let child = s as! DataSnapshot
                 if let dict = child.value as? [String: Any] {
-                    print(child)
                     results.append(TagModel.transformUser(dict: dict, key: child.key))
                     self.await.leave()
                 }
@@ -96,6 +94,15 @@ struct TagsManager {
                 })
             }
         }
+    }
+    
+    func queryTagsAdded(userId uid: String, completion: @escaping (TagModel) -> Void) {
+        tagReference.child(uid).observe(.childAdded, with: { snapshot in
+            if let dict = snapshot.value as? [String: Any] {
+                let tag = TagModel.transformUser(dict: dict, key: snapshot.key)
+                completion(tag)
+            }
+        })
     }
     
     func deleteTag(withTagId tagId: String, uid: String){

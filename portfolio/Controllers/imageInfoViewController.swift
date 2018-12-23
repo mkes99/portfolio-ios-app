@@ -51,8 +51,6 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
     
     let await = DispatchGroup()
     
-    var selectedTags: [String] = []
-    
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -83,6 +81,8 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
         addTag.setupField()
         addTag.delegate = self
         
+        saveButton.setTitle("Save", for: .normal)
+        
         if let currentUser = UserManager.shared.CURRENT_USER {
             self.user = currentUser
             
@@ -111,25 +111,28 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     @IBAction func cancelButtonTapped(_ sender: UIButton) {
-        dismiss(animated: true, completion: {
-            self.delegate?.sendData(title: self.imageTitle.text ?? "", selectedTags: self.selectedTags)
-        })
+        dismissView(save: false)
     }
     
     @IBAction func saveButtonTapped(_ sender: UIButton) {
-        selectedTags = tags.filter{$0.isSelected}.map{$0.value}
-        
+        dismissView(save: true)
+    }
+    
+    func dismissView(save: Bool) {
         dismiss(animated: true, completion: {
-            self.delegate?.sendData(title: self.imageTitle.text ?? "", selectedTags: self.selectedTags)
+            self.delegate?.sendData(title: self.imageTitle.text ?? "", selectedTags: save ? self.uniqueTags.filter{$0.isSelected}.map{$0.value} : [])
             self.tableView?.reloadData()
         })
     }
     
     func fetchTags(uid: String, postTags: [String]) {
         if allTags == false {
+            let limit = UInt(5)
             switch !postTags.isEmpty {
             case true:
+                var postResults: UInt = 0
                 TagsManager.shared.queryPostTags(uid: uid, tagsIds: postTags, completion: {results in
+                    postResults = UInt(results.count)
                     results.forEach({ (result) in
                         let tag = tagStruct(title: result.title ?? "", value: result.value ?? "", isSelected : true)
                         self.tags.append(tag)
@@ -138,13 +141,35 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
                             self.seenTags.insert(tag.title)
                         }
                     })
-                    if self.seenTags.count == self.totalTagCount{
-                        self.allTags = true
+                    if postResults < limit {
+                        TagsManager.shared.queryTagsPage(withId: uid, start: self.lastKey, limit: limit, completion: { (results) in
+                            
+                            if let lastValue = results.last?.title {
+                                self.lastKey = lastValue
+                            }
+                            results.forEach({ (result) in
+                                let tag = tagStruct(title: result.title ?? "", value: result.value ?? "", isSelected : false)
+                                self.tags.append(tag)
+                                if !self.seenTags.contains(tag.title) {
+                                    self.uniqueTags.append(tag)
+                                    self.seenTags.insert(tag.title)
+                                }
+                                
+                            })
+                            if self.seenTags.count == self.totalTagCount{
+                                self.allTags = true
+                            }
+                            self.tableView?.reloadData()
+                        })
+                    } else {
+                        if self.seenTags.count == self.totalTagCount{
+                            self.allTags = true
+                        }
+                        self.tableView?.reloadData()
                     }
-                    self.tableView?.reloadData()
                 })
             case false:
-                TagsManager.shared.queryTagsPage(withId: uid, start: lastKey, limit: 5, completion: { (results) in
+                TagsManager.shared.queryTagsPage(withId: uid, start: lastKey, limit: limit, completion: { (results) in
                     
                     if let lastValue = results.last?.title {
                         self.lastKey = lastValue
@@ -170,7 +195,7 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
     func fetchPost(uid: String, postId: String) {
         PostsManager.shared.queryPostWithId(withPostId: postId, userId: uid, completion: { post in
             self.imageTitle.text = post.title
-            self.saveButton.titleLabel?.text = "Update"
+            self.saveButton.setTitle("Update", for: .normal)
 
             self.fetchTags(uid: uid, postTags: post.tags ?? [])
 
@@ -190,7 +215,6 @@ extension imageInfoViewController: UITextFieldDelegate, UITableViewDataSource, U
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print(textField)
         if textField == imageTitle {
             textField.resignFirstResponder()
         } else if textField == addTag {

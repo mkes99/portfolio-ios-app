@@ -20,6 +20,7 @@ class PostModel {
     var videoUrl: String?
     var timestamp: Int?
     var tags: [String]?
+    var descSort: Int?
 }
 
 extension PostModel {
@@ -32,6 +33,7 @@ extension PostModel {
         post.uid = dict["uid"] as? String
         post.ratio = dict["ratio"] as? CGFloat
         post.timestamp = dict["timestamp"] as? Int
+        post.descSort = dict["descSort"] as? Int
         post.height = dict["height"] as? CGFloat
         post.width = dict["width"] as? CGFloat
         post.tags = dict["tags"] as? [String]

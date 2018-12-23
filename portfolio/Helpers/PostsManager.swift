@@ -36,11 +36,20 @@ struct PostsManager {
         })
     }
     
-    func queryPostPage(withId uid: String, start: String, limit: UInt, completion: @escaping ([(PostModel)]) -> Void) {
-        var postQuery = postReference.child(uid).queryOrdered(byChild: Constants.Database.timeStamp).queryLimited(toFirst: limit)
+    func queryPostAdded(userId uid: String, completion: @escaping (PostModel) -> Void) {
+        postReference.child(uid).observe(.childAdded, with: { snapshot in
+            if let dict = snapshot.value as? [String: Any] {
+                let post = PostModel.transformPostPhoto(dict: dict, key: snapshot.key)
+                completion(post)
+            }
+        })
+    }
+    
+    func queryPostPage(withId uid: String, start: Int, limit: UInt, completion: @escaping ([(PostModel)]) -> Void) {
+        var postQuery = postReference.child(uid).queryOrdered(byChild: Constants.Database.descSort).queryLimited(toFirst: limit)
         
-        if !start.isEmpty {
-            postQuery = postQuery.queryStarting(atValue: start, childKey: Constants.Database.timeStamp)
+        if start < 0 {
+            postQuery = postQuery.queryStarting(atValue: start, childKey: Constants.Database.descSort)
         }
         
         postQuery.observeSingleEvent(of: .value, with: { snapshot in

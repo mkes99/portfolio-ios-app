@@ -57,7 +57,6 @@ class PinterestLayout: UICollectionViewLayout {
             return
         }
 
-        print("Here-----------------------------------------------------------------------------------------")
         // 2. Pre-Calculates the X Offset for every column and adds an array to increment the currently max Y Offset for each column
         let columnWidth = contentWidth / CGFloat(numberOfColumns)
         let cellWidth = columnWidth - (cellPadding * 2)
@@ -76,7 +75,6 @@ class PinterestLayout: UICollectionViewLayout {
             // 4. Asks the delegate for the height of the picture and the annotation and calculates the cell frame.
             let photoHeight = delegate.collectionView(collectionView, heightForImageAtIndexPath: indexPath, withWidth: cellWidth)
             let height = cellPadding * 2 + photoHeight
-            print("height = \(height)")
             let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: height)
             let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
 

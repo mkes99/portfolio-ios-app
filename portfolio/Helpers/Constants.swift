@@ -17,34 +17,7 @@ enum Constants {
         static let tags = "tags"
         static let tag = "tag"
         static let timeStamp = "timestamp"
+        static let descSort = "descSort"
         static let width = "width"
     }
-    
-//    var itemLimit = limit
-//    
-//    self.fetchTagCount(userId: uid, completion: { count in
-//    if limit < count {
-//    itemLimit = UInt(count)
-//    }
-//    })
-    
-    
-    
-    //            let items = snapshot.children.allObjects
-    //            let myGroup = DispatchGroup()
-    //            print("here", snapshot)
-    //            var results: [TagModel] = []
-    //
-    //            for (_, item) in (items as! [DataSnapshot]).enumerated() {
-    //                myGroup.enter()
-    //                self.queryTagsId(withId: uid, tagId: item.key, completion: { (tag) in
-    //                    results.append((tag))
-    //                    myGroup.leave()
-    //                })
-    //            }
-    //
-    //            myGroup.notify(queue: .main) {
-    //                results.sort(by: {$0.title! < $1.title!})
-    //                completion(results)
-    //            }
 }

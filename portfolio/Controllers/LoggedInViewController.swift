@@ -33,7 +33,7 @@ class LoggedInViewController: UIViewController {
     var allTags: Bool = false
     var totalTagCount: Int = 0
     
-    var lastPostKey: String = ""
+    var lastPostKey: Int = 0
     var totalPostCount: Int = 0
     var allPosts: Bool = false
     
@@ -85,12 +85,7 @@ class LoggedInViewController: UIViewController {
         let layoutScroll = collectionViewScroll.collectionViewLayout as! UICollectionViewFlowLayout
         layoutScroll.estimatedItemSize = CGSize(width: 100, height: 50)
         
-        noMatchLabel.isHidden = true
-        
-       
-        
-        // get content
-        
+        noMatchLabel.isHidden = true        
     }
     
     override func viewDidLayoutSubviews() {
@@ -151,9 +146,9 @@ extension LoggedInViewController {
     func fetchPosts() {
         guard let user = user else { return }
         if allPosts == false {
-            PostsManager.shared.queryPostPage(withId: user.uid, start: lastPostKey, limit: 5, completion: { (results) in
-                
-                if let lastPostValue = results.last?.title {
+            PostsManager.shared.queryPostPage(withId: user.uid, start: lastPostKey, limit: 10, completion: { (results) in
+
+                if let lastPostValue = results.last?.descSort {
                     self.lastPostKey = lastPostValue
                 }
                 
@@ -167,7 +162,6 @@ extension LoggedInViewController {
                 
                 self.filteredPosts = self.posts
                 self.collectionViewGrid.reloadData()
-
             })
         }
     }
@@ -176,7 +170,7 @@ extension LoggedInViewController {
     func buildFilter() {
         if allTags == false {
             guard let user = user else { return }
-            TagsManager.shared.queryTagsPage(withId: user.uid, start: lastTagKey, limit: 5, completion: { (results) in
+            TagsManager.shared.queryTagsPage(withId: user.uid, start: lastTagKey, limit: 8, completion: { (results) in
                 
                 if let lastTagValue = results.last?.title {
                     self.lastTagKey = lastTagValue
@@ -245,7 +239,6 @@ extension LoggedInViewController {
 extension LoggedInViewController:  UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
     // imagepicker controller
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        print("did Finish Picking Media")
         
         let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         
@@ -262,15 +255,11 @@ extension LoggedInViewController:  UIImagePickerControllerDelegate, UINavigation
 
 extension LoggedInViewController: PinterestLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForImageAtIndexPath indexPath: IndexPath, withWidth: CGFloat) -> CGFloat {
-        
-        
         let post = filteredPosts[indexPath.row]
-        
         let height: CGFloat =  withWidth / post.ratio!
         
         return height
     }
-    
 }
 
 extension LoggedInViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -302,7 +291,7 @@ extension LoggedInViewController: UICollectionViewDataSource, UICollectionViewDe
             return filterCell
         } else {
             let postCell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostCollectionViewCell", for: indexPath) as! PostCollectionViewCell
-            
+            print("testing \(filteredPosts)")
             if !filteredPosts.isEmpty {
                 let post = filteredPosts[indexPath.row]
                 postCell.post = post
@@ -358,11 +347,23 @@ extension LoggedInViewController: UICollectionViewDataSource, UICollectionViewDe
 
 extension LoggedInViewController: PreviewViewDelegate {
     func dismissPreview() {
-        dismiss(animated: true, completion: {
-            print("here")
-            self.collectionViewGrid.reloadData()
-            self.collectionViewScroll.reloadData()
-        })
+        //Clear collection views and reload with new data in proper order.
+        filteredPosts.removeAll()
+        posts.removeAll()
+        lastPostKey = 0
+        totalPostCount = 0
+        allPosts = false
+        
+        tags.removeAll()
+        lastTagKey = ""
+        allTags = false
+        totalTagCount = 0
+        collectionViewGrid.reloadData()
+        collectionViewScroll.reloadData()
+        fetchPosts()
+        buildFilter()
+        
+        dismiss(animated: true, completion: nil)
     }
 }
 

@@ -11,11 +11,6 @@ import AVFoundation
 import AVKit
 import Firebase
 
-
-//protocol ClassPreviewDelegate: class {
-//    func sendData(title: String, selectedTags: [String])
-//}
-
 protocol PreviewViewDelegate: AnyObject {
    func dismissPreview()
 }
@@ -164,17 +159,8 @@ class PreviewViewController: UIViewController{
         self.present(alert, animated: true, completion: nil)
         
     }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
 
-   
-        
-//        previewPhotoView.frame.size = view.frame.size
-    }
-    
     func uploadDoneMove() {
-        print("test \(delegate)")
         delegate?.dismissPreview()
     }
 
@@ -192,6 +178,7 @@ extension PreviewViewController: UIViewControllerTransitioningDelegate {
     // save post func
     func handleSavingPost() {
         let timestamp = Int(Date().timeIntervalSince1970)
+        let descSort = timestamp * -1
         guard let imageToSave = self.previewPhotoView.image else {
             return
         }
@@ -230,7 +217,7 @@ extension PreviewViewController: UIViewControllerTransitioningDelegate {
                     return
                 }
                 
-                setValueDict = ["portfolioImage" : imageUrl.absoluteString, "height" : imageToSave.size.height, "width" : imageToSave.size.width, "timestamp" : timestamp, "ratio" : ratio]
+                setValueDict = ["portfolioImage" : imageUrl.absoluteString, "height" : imageToSave.size.height, "width" : imageToSave.size.width, "timestamp" : timestamp, "ratio" : ratio, "descSort" : descSort]
                 
                 if let title = self.imageTitle, !title.isEmpty {
                     setValueDict["title"] = title

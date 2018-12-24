@@ -121,16 +121,6 @@ class PreviewViewController: UIViewController{
         filterSaveButton.isHidden = false
         filterCancelButton.isHidden = false
     }
-        
-    @IBAction func tagsButtonTapped(_ sender: UIButton) {
-        let imageInfoVC = UIStoryboard(name: "ImageInfo", bundle: nil).instantiateViewController(withIdentifier: "imageInfoViewController") as! imageInfoViewController
-        imageInfoVC.delegate = self
-        imageInfoVC.imageId = imageId
-        imageInfoVC.modalPresentationStyle = .custom
-        imageInfoVC.transitioningDelegate = self
-        
-        self.present(imageInfoVC, animated: true, completion: nil)
-    }
     
     @IBAction func filterCancelButtonTapped(_ sender: UIButton) {
         previewPhotoView.image = previewImage
@@ -157,13 +147,27 @@ class PreviewViewController: UIViewController{
         alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
 
         self.present(alert, animated: true, completion: nil)
-        
     }
 
     func uploadDoneMove() {
         delegate?.dismissPreview()
     }
+}
 
+extension PreviewViewController: UIViewControllerTransitioningDelegate {
+    @IBAction func tagsButtonTapped(_ sender: UIButton) {
+        let imageInfoVC = UIStoryboard(name: "ImageInfo", bundle: nil).instantiateViewController(withIdentifier: "imageInfoViewController") as! imageInfoViewController
+        imageInfoVC.delegate = self
+        imageInfoVC.imageId = imageId
+        imageInfoVC.modalPresentationStyle = .custom
+        imageInfoVC.transitioningDelegate = self
+        
+        self.present(imageInfoVC, animated: true, completion: nil)
+    }
+    
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return ThreeQuarterPresentationController(presentedViewController: presented, presenting: presenting)
+    }
 }
 
 extension PreviewViewController: ImageInfoViewDelegate{
@@ -174,7 +178,7 @@ extension PreviewViewController: ImageInfoViewDelegate{
     }
 }
 
-extension PreviewViewController: UIViewControllerTransitioningDelegate {
+extension PreviewViewController {
     // save post func
     func handleSavingPost() {
         let timestamp = Int(Date().timeIntervalSince1970)
@@ -323,10 +327,6 @@ extension PreviewViewController: UIViewControllerTransitioningDelegate {
     func handleImageInfo(tile: String, pickedTags: [String]) {
         imageTitle = title
         tags = pickedTags
-    }
-    
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return ThreeQuarterPresentationController(presentedViewController: presented, presenting: presenting)
     }
 }
 

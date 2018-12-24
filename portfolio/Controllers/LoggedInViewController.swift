@@ -15,6 +15,7 @@ class LoggedInViewController: UIViewController {
     
     @IBOutlet weak var signOut: UIBarButtonItem!
     @IBOutlet weak var addImage: UIBarButtonItem!
+    @IBOutlet weak var tagManager: UIBarButtonItem!
     
     @IBOutlet weak var collectionViewGrid: UICollectionView!
     @IBOutlet weak var collectionViewScroll: UICollectionView!
@@ -37,6 +38,7 @@ class LoggedInViewController: UIViewController {
     var totalPostCount: Int = 0
     var allPosts: Bool = false
     
+    let activityView = UIActivityIndicatorView(style: .whiteLarge)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,7 +87,12 @@ class LoggedInViewController: UIViewController {
         let layoutScroll = collectionViewScroll.collectionViewLayout as! UICollectionViewFlowLayout
         layoutScroll.estimatedItemSize = CGSize(width: 100, height: 50)
         
-        noMatchLabel.isHidden = true        
+        noMatchLabel.isHidden = true
+    
+        self.view.addSubview(activityView)
+        activityView.hidesWhenStopped = true
+        activityView.center = self.view.center
+        activityView.isHidden = true
     }
     
     override func viewDidLayoutSubviews() {
@@ -162,6 +169,8 @@ extension LoggedInViewController {
                 
                 self.filteredPosts = self.posts
                 self.collectionViewGrid.reloadData()
+                self.activityView.stopAnimating()
+                self.activityView.isHidden = true
             })
         }
     }
@@ -291,7 +300,6 @@ extension LoggedInViewController: UICollectionViewDataSource, UICollectionViewDe
             return filterCell
         } else {
             let postCell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostCollectionViewCell", for: indexPath) as! PostCollectionViewCell
-            print("testing \(filteredPosts)")
             if !filteredPosts.isEmpty {
                 let post = filteredPosts[indexPath.row]
                 postCell.post = post
@@ -312,16 +320,16 @@ extension LoggedInViewController: UICollectionViewDataSource, UICollectionViewDe
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-                if collectionView == collectionViewScroll {
-                    let tag = tags[indexPath.row]
-                    let width = tag.title!.size(withAttributes: [
-                        NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)
-                        ]).width
-                    return CGSize(width: width + CGFloat(tag.title!.count) + 60, height: 32)
-                } else {
-                    return CGSize(width: 200, height: 200)
-                }
-            }
+        if collectionView == collectionViewScroll {
+            let tag = tags[indexPath.row]
+            let width = tag.title!.size(withAttributes: [
+                NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)
+                ]).width
+            return CGSize(width: width + CGFloat(tag.title!.count) + 60, height: 32)
+        } else {
+            return CGSize(width: 200, height: 200)
+        }
+    }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let currentOffset: CGFloat?
@@ -339,6 +347,10 @@ extension LoggedInViewController: UICollectionViewDataSource, UICollectionViewDe
             if scrollView == collectionViewScroll {
                 buildFilter()
             } else {
+                if allPosts != true {
+                    activityView.startAnimating()
+                    activityView.isHidden = false
+                }
                 fetchPosts()
             }
         }
@@ -409,6 +421,20 @@ extension LoggedInViewController: FilterCollectionViewCellDelegate {
         }
         
         self.collectionViewGrid.reloadData()
+    }
+}
+
+extension LoggedInViewController: UIViewControllerTransitioningDelegate {
+    @IBAction func tagManagerTapped(_ sender: UIBarButtonItem) {
+        let imageInfoVC = UIStoryboard(name: "ImageInfo", bundle: nil).instantiateViewController(withIdentifier: "imageInfoViewController") as! imageInfoViewController
+        imageInfoVC.modalPresentationStyle = .custom
+        imageInfoVC.transitioningDelegate = self
+        
+        self.present(imageInfoVC, animated: true, completion: nil)
+    }
+    
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return ThreeQuarterPresentationController(presentedViewController: presented, presenting: presenting)
     }
 }
 

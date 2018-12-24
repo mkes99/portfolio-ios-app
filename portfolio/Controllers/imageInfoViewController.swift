@@ -67,6 +67,10 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
         self.view.backgroundColor = .clear
         view.insertSubview(blurVisualEffectView, at: 0)
         
+        let spinner = UIActivityIndicatorView(style: .white)
+        spinner.startAnimating()
+        spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
+        
         slideIndicator.layer.cornerRadius = slideIndicator.frame.height / 2
         
         tableView.separatorColor = .white
@@ -75,13 +79,21 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
         tableView.layer.borderWidth = 2.0
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.tableFooterView = spinner
+        tableView.tableFooterView?.isHidden = true
         
         imageTitle.setupField()
         imageTitle.delegate = self
         addTag.setupField()
         addTag.delegate = self
         
-        saveButton.setTitle("Save", for: .normal)
+        if delegate == nil {
+            cancelButton.setTitle("Close", for: .normal)
+            saveButton.isHidden = true
+            imageTitle.isHidden = true
+        } else {
+            saveButton.setTitle("Save", for: .normal)
+        }
         
         if let currentUser = UserManager.shared.CURRENT_USER {
             self.user = currentUser
@@ -127,7 +139,7 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
     
     func fetchTags(uid: String, postTags: [String]) {
         if allTags == false {
-            let limit = UInt(5)
+            let limit = UInt(10)
             switch !postTags.isEmpty {
             case true:
                 var postResults: UInt = 0
@@ -160,12 +172,16 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
                                 self.allTags = true
                             }
                             self.tableView?.reloadData()
+                            self.tableView.tableFooterView?.isHidden = true
+
                         })
                     } else {
                         if self.seenTags.count == self.totalTagCount{
                             self.allTags = true
                         }
                         self.tableView?.reloadData()
+                        self.tableView.tableFooterView?.isHidden = true
+
                     }
                 })
             case false:
@@ -187,6 +203,8 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
                         self.allTags = true
                     }
                     self.tableView?.reloadData()
+                    self.tableView.tableFooterView?.isHidden = true
+
                 })
             }
         }
@@ -247,13 +265,15 @@ extension imageInfoViewController: UITextFieldDelegate, UITableViewDataSource, U
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        let cell = tableView.cellForRow(at: indexPath)
-        if (cell?.accessoryType == UITableViewCell.AccessoryType.checkmark){
-            uniqueTags[indexPath.item].isSelected = false;
-            cell!.accessoryType = UITableViewCell.AccessoryType.none
-        }else{
-            uniqueTags[indexPath.item].isSelected = true;
-            cell!.accessoryType = UITableViewCell.AccessoryType.checkmark
+        if delegate != nil {
+            let cell = tableView.cellForRow(at: indexPath)
+            if (cell?.accessoryType == UITableViewCell.AccessoryType.checkmark){
+                uniqueTags[indexPath.item].isSelected = false;
+                cell!.accessoryType = UITableViewCell.AccessoryType.none
+            }else{
+                uniqueTags[indexPath.item].isSelected = true;
+                cell!.accessoryType = UITableViewCell.AccessoryType.checkmark
+            }
         }
     }
     
@@ -288,6 +308,9 @@ extension imageInfoViewController: UITextFieldDelegate, UITableViewDataSource, U
         
         if maxOffset - currentOffset <= 40 {
            fetchTags(uid: user.uid, postTags: [])
+            if allTags != true {
+                self.tableView.tableFooterView?.isHidden = false
+            }
         }
     }
 }

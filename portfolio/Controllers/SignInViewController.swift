@@ -79,7 +79,10 @@ extension SignInViewController: UIImagePickerControllerDelegate, UINavigationCon
         
         Auth.auth().createUser(withEmail: email, password: password, completion: { user, error in
             if let error = error {
-                print(error)
+                let alert = UIAlertController(title: "Create New User Error", message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+                
+                self.present(alert, animated: true, completion: nil)
                 return
             }
             
@@ -89,6 +92,13 @@ extension SignInViewController: UIImagePickerControllerDelegate, UINavigationCon
         
             if self.selectedImage != nil {
                 ImageUploadManager.shared.uploadImage(imageToUpload: self.selectedImage, storageName: "profile_image", uid: uid, progressBlock: { (percentage) in },completion: { (fileURL, error) in
+                    if (error != nil) {
+                        let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+                        
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    }
                     if let imageUrl = fileURL{
                         userRef.setValue(["name": name, "email": email, "password": password, "profileImage" : imageUrl.absoluteString])
                     }

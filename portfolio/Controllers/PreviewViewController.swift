@@ -215,7 +215,13 @@ extension PreviewViewController {
                 self.progressView.isHidden = false
                 self.progressBar.setProgress(percentage, animated: true)
             }, completion: { (fileURL, error) in
-                if (error != nil) { print("reason: \(error!)"); return}
+                if (error != nil) {
+                    let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+                    
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
                 guard let imageUrl = fileURL else {
                     print("There was no image to upload, please try again.")
                     return

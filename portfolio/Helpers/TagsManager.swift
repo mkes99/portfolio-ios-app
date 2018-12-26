@@ -87,7 +87,10 @@ struct TagsManager {
         tagReference.child(uid).childByAutoId().setValue([Constants.Database.tag: formatedTagText, Constants.Database.timeStamp : timeStamp]){
             (error:Error?, snapshot) in
             if let error = error {
-                print("Data could not be saved: \(error).")
+                let alert = UIAlertController(title: "Data could not be saved", message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+                
+                alert.present(alert, animated: true, completion: nil)
             } else {
                 self.queryTagsId(withId: uid, tagId: snapshot.key, completion: { (tag) in
                     completion(tag)

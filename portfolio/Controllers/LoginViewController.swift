@@ -66,7 +66,10 @@ extension LoginViewController: UITextFieldDelegate {
         
         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
             if let error = error {
-                print(error)
+                let alert = UIAlertController(title: "Login Error", message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+                
+                self.present(alert, animated: true, completion: nil)
                 return
             }
         })

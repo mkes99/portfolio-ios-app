@@ -135,13 +135,19 @@ class LoggedInViewController: UIViewController {
         let onlineRef = UserManager.shared.getUserOnlineRef(user: user)
         onlineRef.removeValue { (error, _) in
             if let error = error {
-                print("Removing online failed: \(error)")
+                let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+                
+                self.present(alert, animated: true, completion: nil)
                 return
             }
             do {
                 try Auth.auth().signOut()
             } catch (let error) {
-                print("Auth sign out failed: \(error)")
+                let alert = UIAlertController(title: "Auth sign out failed", message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+                
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }

@@ -400,6 +400,12 @@ extension CustomCameraViewController {
 
 extension CustomCameraViewController:  AVCapturePhotoCaptureDelegate{
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        if error != nil {
+            let alert = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+        }
         if let imageData = photo.fileDataRepresentation(){
             capturedImage = UIImage.init(data: imageData , scale: 1.0)
             goToPreview(photo: capturedImage!, video: nil)
@@ -409,8 +415,11 @@ extension CustomCameraViewController:  AVCapturePhotoCaptureDelegate{
 
 extension CustomCameraViewController: AVCaptureFileOutputRecordingDelegate{
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-        if (error != nil) {
-            print("Error recording movie: \(error!.localizedDescription)")
+        if error != nil {
+            let alert = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
         } else {
             goToPreview(photo: nil, video: outputFileURL)
         }

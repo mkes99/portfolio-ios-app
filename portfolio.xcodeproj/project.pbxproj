@@ -41,6 +41,8 @@
 		A9C7D4552140E95900508FD4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9C7D4532140E95900508FD4 /* LaunchScreen.storyboard */; };
 		A9C7D45D2140F90C00508FD4 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9C7D45C2140F90C00508FD4 /* Login.storyboard */; };
 		A9C7D45F2140F92200508FD4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C7D45E2140F92200508FD4 /* LoginViewController.swift */; };
+		A9D1ABD421D49CF30007191B /* TagManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9D1ABD321D49CF30007191B /* TagManager.storyboard */; };
+		A9D1ABD621D49DB50007191B /* tagManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D1ABD521D49DB50007191B /* tagManagerViewController.swift */; };
 		A9EF7391219552F2006CC3F8 /* PassThroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF7390219552F2006CC3F8 /* PassThroughView.swift */; };
 		A9EF7393219952EC006CC3F8 /* TagsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF7392219952EC006CC3F8 /* TagsManager.swift */; };
 		A9EF7395219A803B006CC3F8 /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF7394219A803B006CC3F8 /* FilterCollectionViewCell.swift */; };
@@ -84,6 +86,8 @@
 		A9C7D4562140E95900508FD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9C7D45C2140F90C00508FD4 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		A9C7D45E2140F92200508FD4 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		A9D1ABD321D49CF30007191B /* TagManager.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TagManager.storyboard; sourceTree = "<group>"; };
+		A9D1ABD521D49DB50007191B /* tagManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tagManagerViewController.swift; sourceTree = "<group>"; };
 		A9EF7390219552F2006CC3F8 /* PassThroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughView.swift; sourceTree = "<group>"; };
 		A9EF7392219952EC006CC3F8 /* TagsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsManager.swift; sourceTree = "<group>"; };
 		A9EF7394219A803B006CC3F8 /* FilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -136,6 +140,7 @@
 				A944F5D0217649B90030D1C8 /* ImageCropping.storyboard */,
 				A9B6C8DF2148EFC5005B06EA /* LoggedIn.storyboard */,
 				A986138121521B880082906E /* ImageInfo.storyboard */,
+				A9D1ABD321D49CF30007191B /* TagManager.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -167,6 +172,7 @@
 				A986183C2173D7120033DA77 /* CustomCameraViewController.swift */,
 				A9BACA192154BF4C002C1662 /* imageInfoViewController.swift */,
 				A9B6C8E12148EFF5005B06EA /* LoggedInViewController.swift */,
+				A9D1ABD521D49DB50007191B /* tagManagerViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -302,6 +308,7 @@
 				A9861369214B1C190082906E /* GoogleService-Info.plist in Resources */,
 				A98618392173C8D50033DA77 /* Camera.storyboard in Resources */,
 				A944F5D1217649B90030D1C8 /* ImageCropping.storyboard in Resources */,
+				A9D1ABD421D49CF30007191B /* TagManager.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +348,7 @@
 				A9EF7395219A803B006CC3F8 /* FilterCollectionViewCell.swift in Sources */,
 				40CAA66D218F84410025C0A3 /* UserManager.swift in Sources */,
 				40CAA66B218F84330025C0A3 /* Constants.swift in Sources */,
+				A9D1ABD621D49DB50007191B /* tagManagerViewController.swift in Sources */,
 				A9AE0D7021C8A19500AA0897 /* PinterestLayout.swift in Sources */,
 				40CAA669218F82A40025C0A3 /* APIManager.swift in Sources */,
 				A9B6C8E22148EFF5005B06EA /* LoggedInViewController.swift in Sources */,

@@ -261,6 +261,7 @@ extension LoggedInViewController:  UIImagePickerControllerDelegate, UINavigation
             dismiss(animated: true, completion: {
                 if let navController = UIStoryboard(name: "Preview", bundle: nil).instantiateInitialViewController() as? UINavigationController, let previewVC = navController.topViewController as? PreviewViewController {
                     previewVC.previewImage = image
+                    previewVC.delegate = self
                     self.present(navController, animated: true, completion: nil)
                 }
             })
@@ -385,6 +386,20 @@ extension LoggedInViewController: PreviewViewDelegate {
     }
 }
 
+extension LoggedInViewController: TagManagerViewDelegate {
+    func dismissTagManager() {
+        //Clear collection views and reload with new data in proper order.
+        tags.removeAll()
+        lastTagKey = ""
+        allTags = false
+        totalTagCount = 0
+        collectionViewScroll.reloadData()
+        buildFilter()
+        
+        dismiss(animated: true, completion: nil)
+    }
+}
+
 extension LoggedInViewController: PostCollectionViewCellDelegate {
     func goToPreviewVC(postImage: UIImage, postId: String) {
         if let navController = UIStoryboard(name: "Preview", bundle: nil).instantiateInitialViewController() as? UINavigationController, let previewVC = navController.topViewController as? PreviewViewController {
@@ -432,11 +447,11 @@ extension LoggedInViewController: FilterCollectionViewCellDelegate {
 
 extension LoggedInViewController: UIViewControllerTransitioningDelegate {
     @IBAction func tagManagerTapped(_ sender: UIBarButtonItem) {
-        let imageInfoVC = UIStoryboard(name: "ImageInfo", bundle: nil).instantiateViewController(withIdentifier: "imageInfoViewController") as! imageInfoViewController
-        imageInfoVC.modalPresentationStyle = .custom
-        imageInfoVC.transitioningDelegate = self
-        
-        self.present(imageInfoVC, animated: true, completion: nil)
+        let tagManagerVC = UIStoryboard(name: "TagManager", bundle: nil).instantiateViewController(withIdentifier: "tagManagerViewController") as! tagManagerViewController
+        tagManagerVC.modalPresentationStyle = .custom
+        tagManagerVC.transitioningDelegate = self
+        tagManagerVC.delegate = self
+        self.present(tagManagerVC, animated: true, completion: nil)
     }
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {

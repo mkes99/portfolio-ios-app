@@ -17,14 +17,13 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
     weak var delegate: ImageInfoViewDelegate?
 
     @IBOutlet weak var imageTitle: UITextField!
-    @IBOutlet weak var addTag: UITextField!
     
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
-    @IBOutlet weak var saveTag: UIButton!
     @IBOutlet weak var slideIndicator: UIButton!
+    @IBOutlet weak var newTag: UIButton!
     
     struct tagStruct: Equatable {
         let title: String
@@ -84,8 +83,6 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
         
         imageTitle.setupField()
         imageTitle.delegate = self
-        addTag.setupField()
-        addTag.delegate = self
         
         if delegate == nil {
             cancelButton.setTitle("Close", for: .normal)
@@ -110,16 +107,12 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
         }
     }
     
-    @IBAction func saveTagTapped(_ sender: UIButton) {
-        if let tagField = addTag.text, !tagField.isEmpty {
-            saveTagsHandler()
-            tableView?.reloadData()
-        } else {
-            let alert = UIAlertController(title: "Validation Error", message: "Add to tag filed must have a value before you can save.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
-            
-            self.present(alert, animated: true, completion: nil)
-        }
+    @IBAction func newTag(_ sender: UIButton) {
+        let tagManagerVC = UIStoryboard(name: "TagManager", bundle: nil).instantiateViewController(withIdentifier: "tagManagerViewController") as! tagManagerViewController
+        tagManagerVC.modalPresentationStyle = .custom
+        tagManagerVC.transitioningDelegate = self
+        tagManagerVC.delegate = self
+        self.present(tagManagerVC, animated: true, completion: nil)
     }
     
     @IBAction func cancelButtonTapped(_ sender: UIButton) {
@@ -221,23 +214,40 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
     }
 }
 
-extension imageInfoViewController: UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate{
-    func saveTagsHandler() {
-        guard let user = user else { return }
-        guard let tagText = addTag.text else {return}
-        TagsManager.shared.saveTags(withUserId: user.uid, tagText: tagText, timeStamp: Int(Date().timeIntervalSince1970), completion: { tag in
-            self.tags.insert(tagStruct(title: tag.title!, value: tag.value!, isSelected : false), at: 0)
-            self.tableView?.reloadData()
-        })
-        addTag.text = nil
+extension imageInfoViewController: TagManagerViewDelegate {
+    func dismissTagManager() {
+        guard let user = self.user else { return }
+        tags.removeAll()
+        lastKey = ""
+        allTags = false
+        totalTagCount = 0
+        uniqueTags.removeAll()
+        seenTags.removeAll()
+        tableView.reloadData()
+        fetchTags(uid: user.uid, postTags: [])
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+extension imageInfoViewController: UIViewControllerTransitioningDelegate {
+    @IBAction func tagManagerTapped(_ sender: UIBarButtonItem) {
+        let tagManagerVC = UIStoryboard(name: "TagManager", bundle: nil).instantiateViewController(withIdentifier: "tagManagerViewController") as! tagManagerViewController
+        tagManagerVC.modalPresentationStyle = .custom
+        tagManagerVC.transitioningDelegate = self
+        tagManagerVC.delegate = self
+        self.present(tagManagerVC, animated: true, completion: nil)
     }
     
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return ThreeQuarterPresentationController(presentedViewController: presented, presenting: presenting)
+    }
+}
+
+extension imageInfoViewController: UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == imageTitle {
             textField.resignFirstResponder()
-        } else if textField == addTag {
-            textField.resignFirstResponder()
-        }
+        } 
         return true
     }
     

@@ -63,7 +63,7 @@
                                             <action selector="accountNoTapped:" destination="zwn-IG-Imu" eventType="touchUpInside" id="vAq-rI-qC1"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Trinity-Color-Logo-No-Back" translatesAutoresizingMaskIntoConstraints="NO" id="8gx-Qa-Rpg">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="8gx-Qa-Rpg">
                                         <rect key="frame" x="157" y="185" width="100" height="100"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -142,6 +142,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Trinity-Color-Logo-No-Back" width="800" height="800"/>
+        <image name="logo" width="141.36000061035156" height="120"/>
     </resources>
 </document>

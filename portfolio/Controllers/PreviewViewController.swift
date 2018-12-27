@@ -148,7 +148,6 @@ class PreviewViewController: UIViewController{
 
         self.present(alert, animated: true, completion: nil)
     }
-
     func uploadDoneMove() {
         delegate?.dismissPreview()
     }

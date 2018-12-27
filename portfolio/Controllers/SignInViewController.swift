@@ -60,6 +60,15 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         center.addObserver(self, selector: #selector(keyboardDidHide(notification:)), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
+    
+    override var shouldAutorotate: Bool {
+        return false
+    }
+
+    
     @IBAction func loginDidTouch(_ sender: UIButton) {
         handleRegister()
     }

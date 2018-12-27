@@ -95,6 +95,15 @@ class LoggedInViewController: UIViewController {
         activityView.isHidden = true
     }
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
+    
+    override var shouldAutorotate: Bool {
+        return false
+    }
+
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionViewGrid.collectionViewLayout.invalidateLayout()
@@ -119,8 +128,6 @@ class LoggedInViewController: UIViewController {
             selectImage.allowsEditing = true;
             selectImage.delegate = self
             selectImage.sourceType = .photoLibrary
-//            let previewVC = UIStoryboard(name: "Preview", bundle: nil).instantiateViewController(withIdentifier: "PreviewViewController") as UIViewController
-//            previewVC.delegate = self
             self.present(selectImage, animated: true, completion: nil)
         }))
         

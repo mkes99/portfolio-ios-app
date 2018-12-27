@@ -31,6 +31,15 @@ class ViewController: UIViewController {
         }
     }
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
+    
+    override var shouldAutorotate: Bool {
+        return false
+    }
+
+    
     @IBAction func loginPressed(_ sender: UIButton) {
         if let navController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() as? UINavigationController {
             self.present(navController, animated: true, completion: nil)

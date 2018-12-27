@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		406D2CFC21D5460900419EA7 /* UIImageView+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D2CFB21D5460900419EA7 /* UIImageView+Helpers.swift */; };
+		406D2CFE21D5464C00419EA7 /* UIViewController+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D2CFD21D5464C00419EA7 /* UIViewController+Helper.swift */; };
+		406D2D0021D5467B00419EA7 /* UITextField+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D2CFF21D5467B00419EA7 /* UITextField+Helpers.swift */; };
+		406D2D0221D546BC00419EA7 /* UIImage+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D2D0121D546BC00419EA7 /* UIImage+Helpers.swift */; };
+		406D2D0421D546E000419EA7 /* Array+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D2D0321D546E000419EA7 /* Array+Helpers.swift */; };
+		406D2D0621D5478B00419EA7 /* UINavigationController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D2D0521D5478B00419EA7 /* UINavigationController+Helpers.swift */; };
 		40CAA666218F80680025C0A3 /* PostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CAA664218F80670025C0A3 /* PostCollectionViewCell.swift */; };
 		40CAA667218F80680025C0A3 /* FilterButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CAA665218F80680025C0A3 /* FilterButtons.swift */; };
 		40CAA669218F82A40025C0A3 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CAA668218F82A40025C0A3 /* APIManager.swift */; };
@@ -21,7 +27,6 @@
 		A986136B214B20820082906E /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986136A214B20820082906E /* SignInViewController.swift */; };
 		A986136D214B22D00082906E /* SignIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A986136C214B22D00082906E /* SignIn.storyboard */; };
 		A9861379214DB3F70082906E /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9861378214DB3F70082906E /* Post.swift */; };
-		A986137B214DB93D0082906E /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986137A214DB93D0082906E /* Extentions.swift */; };
 		A98613802150DC820082906E /* ImageUploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A986137F2150DC820082906E /* ImageUploadManager.swift */; };
 		A986138221521B880082906E /* ImageInfo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A986138121521B880082906E /* ImageInfo.storyboard */; };
 		A98618392173C8D50033DA77 /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A98618382173C8D50033DA77 /* Camera.storyboard */; };
@@ -50,6 +55,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		406D2CFB21D5460900419EA7 /* UIImageView+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Helpers.swift"; sourceTree = "<group>"; };
+		406D2CFD21D5464C00419EA7 /* UIViewController+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Helper.swift"; sourceTree = "<group>"; };
+		406D2CFF21D5467B00419EA7 /* UITextField+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Helpers.swift"; sourceTree = "<group>"; };
+		406D2D0121D546BC00419EA7 /* UIImage+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Helpers.swift"; sourceTree = "<group>"; };
+		406D2D0321D546E000419EA7 /* Array+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Helpers.swift"; sourceTree = "<group>"; };
+		406D2D0521D5478B00419EA7 /* UINavigationController+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Helpers.swift"; sourceTree = "<group>"; };
 		40CAA664218F80670025C0A3 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
 		40CAA665218F80680025C0A3 /* FilterButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterButtons.swift; sourceTree = "<group>"; };
 		40CAA668218F82A40025C0A3 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
@@ -63,7 +74,6 @@
 		A986136A214B20820082906E /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		A986136C214B22D00082906E /* SignIn.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignIn.storyboard; sourceTree = "<group>"; };
 		A9861378214DB3F70082906E /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
-		A986137A214DB93D0082906E /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		A986137F2150DC820082906E /* ImageUploadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadManager.swift; sourceTree = "<group>"; };
 		A986138121521B880082906E /* ImageInfo.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ImageInfo.storyboard; sourceTree = "<group>"; };
 		A98618382173C8D50033DA77 /* Camera.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
@@ -148,7 +158,6 @@
 		A986137C214DB9420082906E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				A986137A214DB93D0082906E /* Extentions.swift */,
 				A986137F2150DC820082906E /* ImageUploadManager.swift */,
 				A9FFF1A9217D3FFC0020729A /* CropFrame.swift */,
 				40CAA668218F82A40025C0A3 /* APIManager.swift */,
@@ -157,6 +166,12 @@
 				40CAA66E218F86310025C0A3 /* PostsManager.swift */,
 				A9EF7392219952EC006CC3F8 /* TagsManager.swift */,
 				40CAA66A218F84330025C0A3 /* Constants.swift */,
+				406D2CFB21D5460900419EA7 /* UIImageView+Helpers.swift */,
+				406D2CFD21D5464C00419EA7 /* UIViewController+Helper.swift */,
+				406D2CFF21D5467B00419EA7 /* UITextField+Helpers.swift */,
+				406D2D0121D546BC00419EA7 /* UIImage+Helpers.swift */,
+				406D2D0321D546E000419EA7 /* Array+Helpers.swift */,
+				406D2D0521D5478B00419EA7 /* UINavigationController+Helpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -342,16 +357,18 @@
 			files = (
 				40CAA666218F80680025C0A3 /* PostCollectionViewCell.swift in Sources */,
 				A9B6C8DD2148EBC3005B06EA /* User.swift in Sources */,
+				406D2CFC21D5460900419EA7 /* UIImageView+Helpers.swift in Sources */,
 				A986183F2173EAC40033DA77 /* PreviewViewController.swift in Sources */,
 				A99C6A612192CCA600D7A571 /* ThreeQuarterPresentationController.swift in Sources */,
-				A986137B214DB93D0082906E /* Extentions.swift in Sources */,
 				A9EF7395219A803B006CC3F8 /* FilterCollectionViewCell.swift in Sources */,
 				40CAA66D218F84410025C0A3 /* UserManager.swift in Sources */,
 				40CAA66B218F84330025C0A3 /* Constants.swift in Sources */,
 				A9D1ABD621D49DB50007191B /* tagManagerViewController.swift in Sources */,
 				A9AE0D7021C8A19500AA0897 /* PinterestLayout.swift in Sources */,
+				406D2D0421D546E000419EA7 /* Array+Helpers.swift in Sources */,
 				40CAA669218F82A40025C0A3 /* APIManager.swift in Sources */,
 				A9B6C8E22148EFF5005B06EA /* LoggedInViewController.swift in Sources */,
+				406D2CFE21D5464C00419EA7 /* UIViewController+Helper.swift in Sources */,
 				A986136B214B20820082906E /* SignInViewController.swift in Sources */,
 				A98613802150DC820082906E /* ImageUploadManager.swift in Sources */,
 				40CAA66F218F86310025C0A3 /* PostsManager.swift in Sources */,
@@ -361,12 +378,15 @@
 				A9C7D44D2140E95800508FD4 /* HomeViewController.swift in Sources */,
 				A9BACA302158C6C2002C1662 /* Tags.swift in Sources */,
 				A9861379214DB3F70082906E /* Post.swift in Sources */,
+				406D2D0021D5467B00419EA7 /* UITextField+Helpers.swift in Sources */,
 				40CAA667218F80680025C0A3 /* FilterButtons.swift in Sources */,
 				A9EF7391219552F2006CC3F8 /* PassThroughView.swift in Sources */,
 				A9C7D44B2140E95800508FD4 /* AppDelegate.swift in Sources */,
 				A986183D2173D7120033DA77 /* CustomCameraViewController.swift in Sources */,
 				A9EF7393219952EC006CC3F8 /* TagsManager.swift in Sources */,
 				A9FFF1AA217D3FFC0020729A /* CropFrame.swift in Sources */,
+				406D2D0221D546BC00419EA7 /* UIImage+Helpers.swift in Sources */,
+				406D2D0621D5478B00419EA7 /* UINavigationController+Helpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,6 +532,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = portfolio/portfolio.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PH2PPEPV7A;
 				INFOPLIST_FILE = portfolio/Info.plist;
@@ -521,6 +542,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.formativewebsolutions.portfolioApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -532,6 +554,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = portfolio/portfolio.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PH2PPEPV7A;
 				INFOPLIST_FILE = portfolio/Info.plist;
@@ -541,6 +564,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.formativewebsolutions.portfolioApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

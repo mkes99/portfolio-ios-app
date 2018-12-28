@@ -54,10 +54,10 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         profileImage.addGestureRecognizer(tapGesture)
         profileImage.isUserInteractionEnabled = true
         
-        let center: NotificationCenter = NotificationCenter.default
-        center.addObserver(self, selector: #selector(keyboardDidShow(notification:)), name:
-            UIResponder.keyboardDidShowNotification, object: nil)
-        center.addObserver(self, selector: #selector(keyboardDidHide(notification:)), name: UIResponder.keyboardDidHideNotification, object: nil)
+        self.hideKeyboardWhenTappedAround() 
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -154,21 +154,21 @@ extension SignInViewController: UIImagePickerControllerDelegate, UINavigationCon
         present(myPickerController, animated: true, completion: nil)
     }
     
-    @objc func keyboardDidShow(notification: Notification) {
-        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-            return
+    @objc func keyboardWillShow(notification: NSNotification) {
+        let offset = UIScreen.main.bounds.height / 3
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height - offset
+            }
         }
-        let keyboardY = self.view.frame.size.height - keyboardSize.height
-        
-        UIView.animate(withDuration: 0.0, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
-            self.view.frame = CGRect(x: 0, y : self.view.frame.origin.y - (self.loginButton.frame.origin.y - (keyboardY - 60)), width: self.view.bounds.width, height: self.view.bounds.height)
-        }, completion: nil)
     }
-    @objc func keyboardDidHide(notification: Notification) {
-        UIView.animate(withDuration: 0.0, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
-            self.view.frame = CGRect(x: 0, y : 0, width: self.view.bounds.width, height: self.view.bounds.height)
-        }, completion: nil)
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
     }
+
 }
 
 // Helper function inserted by Swift 4.2 migrator.

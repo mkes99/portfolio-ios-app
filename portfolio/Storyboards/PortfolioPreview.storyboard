@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ZbK-gr-x6t">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--portfolioPreviewViewController-->
+        <scene sceneID="ef9-Uv-VuL">
+            <objects>
+                <viewController storyboardIdentifier="portfolioPreviewViewController" title="portfolioPreviewViewController" id="hOw-rf-Ikw" customClass="PortfolioPreviewViewController" customModule="portfolio" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dZD-Rm-7fV"/>
+                        <viewControllerLayoutGuide type="bottom" id="Xaq-an-vZl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4Ua-kY-Z4A">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="r1I-l0-bfR">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="r1I-l0-bfR" firstAttribute="top" secondItem="4Ua-kY-Z4A" secondAttribute="top" id="JBj-ze-s3T"/>
+                            <constraint firstAttribute="bottom" secondItem="r1I-l0-bfR" secondAttribute="bottom" id="Wic-nM-h7J"/>
+                            <constraint firstAttribute="trailing" secondItem="r1I-l0-bfR" secondAttribute="trailing" id="igU-fC-Bsq"/>
+                            <constraint firstItem="r1I-l0-bfR" firstAttribute="leading" secondItem="4Ua-kY-Z4A" secondAttribute="leading" id="z0D-tQ-5rv"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="jFn-Nt-9sS">
+                        <barButtonItem key="leftBarButtonItem" title="Close" id="AH2-bk-KOe">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="hOw-rf-Ikw" id="HnC-RQ-Q7U"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="cancelButton" destination="AH2-bk-KOe" id="yFP-sr-qse"/>
+                        <outlet property="previewPhotoView" destination="r1I-l0-bfR" id="u32-fq-hxd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0o9-kQ-Hfc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1244" y="78.710644677661179"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="FPd-a8-R52">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZbK-gr-x6t" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="pBZ-7n-xPu">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="hOw-rf-Ikw" kind="relationship" relationship="rootViewController" id="kfZ-ec-8os"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hi0-yZ-ZMr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="304.80000000000001" y="78.710644677661179"/>
+        </scene>
+    </scenes>
+</document>

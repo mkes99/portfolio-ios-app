@@ -105,6 +105,8 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
                 fetchTags(uid: currentUser.uid, postTags: [])
             }
         }
+        
+        self.hideKeyboardWhenTappedAround() 
     }
     
     @IBAction func newTag(_ sender: UIButton) {

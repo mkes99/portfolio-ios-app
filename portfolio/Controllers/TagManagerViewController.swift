@@ -66,6 +66,8 @@ class tagManagerViewController: UIViewController, UIImagePickerControllerDelegat
         if let currentUser = UserManager.shared.CURRENT_USER {
             self.user = currentUser
         }
+        
+        self.hideKeyboardWhenTappedAround() 
     }
     
     

@@ -108,6 +108,14 @@ class PreviewViewController: UIViewController{
         }
     }
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
+
+    override var shouldAutorotate: Bool {
+        return false
+    }
+    
     @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
        self.uploadDoneMove()
     }

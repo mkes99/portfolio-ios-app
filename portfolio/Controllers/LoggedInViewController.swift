@@ -13,6 +13,7 @@ import Firebase
 class LoggedInViewController: UIViewController {
     var selectedImage: UIImage?
     
+    @IBOutlet weak var Portfolio: UIBarButtonItem!
     @IBOutlet weak var signOut: UIBarButtonItem!
     @IBOutlet weak var addImage: UIBarButtonItem!
     @IBOutlet weak var tagManager: UIBarButtonItem!
@@ -159,7 +160,11 @@ class LoggedInViewController: UIViewController {
         }
     }
     
-   
+    @IBAction func portfolioTapped(_ sender: UIBarButtonItem) {
+        if let navController = UIStoryboard(name: "Portfolio", bundle: nil).instantiateInitialViewController() as? UINavigationController {
+            self.present(navController, animated: true, completion: nil)
+        }
+    }
 }
 extension LoggedInViewController {
     // get post for collection view

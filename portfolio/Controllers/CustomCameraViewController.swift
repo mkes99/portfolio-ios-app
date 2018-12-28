@@ -373,6 +373,10 @@ extension CustomCameraViewController {
     }
     
     func goToPreview(photo : UIImage?, video : URL?) {
+        let value = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+        UINavigationController.attemptRotationToDeviceOrientation()
+        
         guard let pvc = self.presentingViewController else { return }
         dismiss(animated: true, completion: {
             let alert = UIAlertController(title: nil, message: "Loading Preview...", preferredStyle: .alert)

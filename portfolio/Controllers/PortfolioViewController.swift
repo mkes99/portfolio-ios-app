@@ -10,9 +10,13 @@ import UIKit
 import AVFoundation
 import Firebase
 
+protocol PortfolioViewDelegate: AnyObject {
+    func dismissPortfolio()
+}
+
 class PortfolioViewController: UIViewController {
     var selectedImage: UIImage?
-    
+    weak var delegate : PortfolioViewDelegate?
     
     @IBOutlet weak var collectionViewGrid: UICollectionView!
     @IBOutlet weak var collectionViewScroll: UICollectionView!
@@ -108,7 +112,7 @@ class PortfolioViewController: UIViewController {
     }
     
     @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
+        delegate?.dismissPortfolio()
     }
 }
 extension PortfolioViewController {

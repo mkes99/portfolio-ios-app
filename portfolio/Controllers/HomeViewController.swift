@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
@@ -30,7 +30,7 @@ class ViewController: UIViewController {
             }
         }
     }
-    
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
     }
@@ -38,7 +38,6 @@ class ViewController: UIViewController {
     override var shouldAutorotate: Bool {
         return false
     }
-
     
     @IBAction func loginPressed(_ sender: UIButton) {
         if let navController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() as? UINavigationController {

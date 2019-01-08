@@ -265,8 +265,7 @@ extension PreviewViewController {
             "CIPhotoEffectTonal",
             "CIPhotoEffectTransfer",
             "CISepiaTone",
-            "CIVignette",
-            "CIVignetteEffect"
+            "CIVignette"
         ]
         
         var xCoord: CGFloat = 5
@@ -312,6 +311,7 @@ extension PreviewViewController {
         
         // Resize Scroll View
         scrollView.contentSize = CGSize(width: buttonWidth * CGFloat(itemCount+2), height:  yCoord)
+        scrollView.frame.size.height = yCoord
     }
     
     

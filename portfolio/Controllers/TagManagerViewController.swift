@@ -13,7 +13,7 @@ protocol TagManagerViewDelegate: AnyObject {
     func dismissTagManager()
 }
 
-class tagManagerViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class tagManagerViewController: UIViewController {
     weak var delegate: TagManagerViewDelegate?
     
     @IBOutlet weak var tableView: UITableView!
@@ -63,6 +63,8 @@ class tagManagerViewController: UIViewController, UIImagePickerControllerDelegat
         newTag.setupField()
         newTag.delegate = self
         
+        slideIndicator.center.x = self.view.center.x
+        
         if let currentUser = UserManager.shared.CURRENT_USER {
             self.user = currentUser
         }
@@ -95,7 +97,6 @@ extension tagManagerViewController: UITextFieldDelegate, UITableViewDataSource, 
         guard let tagText = newTag.text else {return}
         TagsManager.shared.saveTags(withUserId: user.uid, tagText: tagText, timeStamp: Int(Date().timeIntervalSince1970), completion: { tag in
             self.tags.insert(tagStruct(title: tag.title!, value: tag.value!, isSelected : false), at: 0)
-            print(tag)
             self.tableView?.reloadData()
         })
         newTag.text = nil
@@ -151,9 +152,4 @@ extension tagManagerViewController: UITextFieldDelegate, UITableViewDataSource, 
             
         }
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
-    return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }

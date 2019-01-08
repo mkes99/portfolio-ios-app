@@ -114,27 +114,45 @@ class LoggedInViewController: UIViewController {
     
     // add portfolio button
     @IBAction func addImageTapped(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        if UIImagePickerController.isSourceTypeAvailable(.camera){
-            alert.addAction(UIAlertAction(title: "Take photo", style: .default, handler: { _ in
-                if let navController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as? UINavigationController, let cameraVC = navController.topViewController as? CustomCameraViewController {
-                    cameraVC.delegate = self
-                    self.present(navController, animated: true, completion: nil)
-                }
-            }))
-        }
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        alert.addAction(UIAlertAction(title: "Choose photo", style: .default, handler: { _ in
+        let takeAction = UIAlertAction(title: "Take photo", style: .default, handler: { _ in
+            if let navController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as? UINavigationController, let cameraVC = navController.topViewController as? CustomCameraViewController {
+                cameraVC.delegate = self
+                self.present(navController, animated: true, completion: nil)
+            }
+        })
+       
+        let chooseAction = UIAlertAction(title: "Choose photo", style: .default, handler: { _ in
             let selectImage = UIImagePickerController()
-            selectImage.allowsEditing = true;
+            selectImage.allowsEditing = false;
             selectImage.delegate = self
             selectImage.sourceType = .photoLibrary
             self.present(selectImage, animated: true, completion: nil)
-        }))
+        })
         
-        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+            let selectImage = UIImagePickerController()
+            selectImage.allowsEditing = false;
+            selectImage.delegate = self
+            selectImage.sourceType = .photoLibrary
+            self.present(selectImage, animated: true, completion: nil)
+        })
         
-        self.present(alert, animated: true, completion: nil)
+        if UIImagePickerController.isSourceTypeAvailable(.camera){
+            alertController.addAction(takeAction)
+        }
+    
+        alertController.addAction(chooseAction)
+        alertController.addAction(cancelAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     // sign out button
@@ -161,7 +179,8 @@ class LoggedInViewController: UIViewController {
     }
     
     @IBAction func portfolioTapped(_ sender: UIBarButtonItem) {
-        if let navController = UIStoryboard(name: "Portfolio", bundle: nil).instantiateInitialViewController() as? UINavigationController {
+        if let navController = UIStoryboard(name: "Portfolio", bundle: nil).instantiateInitialViewController() as? UINavigationController, let portfolioVC = navController.topViewController as? PortfolioViewController  {
+            portfolioVC.delegate = self
             self.present(navController, animated: true, completion: nil)
         }
     }
@@ -378,6 +397,28 @@ extension LoggedInViewController: UICollectionViewDataSource, UICollectionViewDe
 
 extension LoggedInViewController: PreviewViewDelegate {
     func dismissPreview() {
+        //Clear collection views and reload with new data in proper order.
+        filteredPosts.removeAll()
+        posts.removeAll()
+        lastPostKey = 0
+        totalPostCount = 0
+        allPosts = false
+        
+        tags.removeAll()
+        lastTagKey = ""
+        allTags = false
+        totalTagCount = 0
+        collectionViewGrid.reloadData()
+        collectionViewScroll.reloadData()
+        fetchPosts()
+        buildFilter()
+        
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+extension LoggedInViewController: PortfolioViewDelegate {
+    func dismissPortfolio() {
         //Clear collection views and reload with new data in proper order.
         filteredPosts.removeAll()
         posts.removeAll()

@@ -13,7 +13,7 @@ protocol ImageInfoViewDelegate: AnyObject {
     func sendData(title: String, selectedTags: [String])
 }
 
-class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class imageInfoViewController: UIViewController{
     weak var delegate: ImageInfoViewDelegate?
 
     @IBOutlet weak var imageTitle: UITextField!
@@ -83,6 +83,8 @@ class imageInfoViewController: UIViewController, UIImagePickerControllerDelegate
         
         imageTitle.setupField()
         imageTitle.delegate = self
+        
+        slideIndicator.center.x = self.view.center.x
         
         if delegate == nil {
             cancelButton.setTitle("Close", for: .normal)
@@ -325,9 +327,4 @@ extension imageInfoViewController: UITextFieldDelegate, UITableViewDataSource, U
             }
         }
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
-    return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }
